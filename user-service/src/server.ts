@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import { syncModels } from './models/sync';
 
 
 dotenv.config();
@@ -12,6 +13,10 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.listen(port, () => {    
-  console.log(`Server is running on http://localhost:${port}`);
-});
+( async ()=>{
+    await syncModels();
+    console.log("✅ Database is ready!");
+    app.listen(port, () => {    
+        console.log(`Server is running on http://localhost:${port}`);
+      });
+})();
