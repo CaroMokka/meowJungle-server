@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
+import { Request, RequestHandler, Response } from 'express';
 import Client from '../models/client.model';
 
-export const createClient = async (req: Request, res: Response) => {
+const createClient = async (req: Request, res: Response): Promise<Response> => {
     const { first_name, last_name, email, phone_number } = req.body;    
     try {
         if (!first_name || !last_name || !email) {
@@ -22,3 +22,4 @@ export const createClient = async (req: Request, res: Response) => {
     }
 }
 
+export { createClient };

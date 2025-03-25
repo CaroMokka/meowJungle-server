@@ -14,7 +14,7 @@ PaymentMethod.belongsTo(Client, { foreignKey: "client_id", as: "client" });
 
 const syncModels = async () => {
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ alter: true });
     console.log("Database synced successfully ✅");
   } catch (error) {
     console.error("Error syncing database ❌:", error);
