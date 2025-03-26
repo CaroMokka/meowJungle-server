@@ -65,4 +65,18 @@ const updateClient = async (req: Request, res: Response): Promise<Response> => {
     }
 }
 
-export { createClient, getClients, getClientById, updateClient };
+const deleteClient = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+    try {
+        const client = await Client.findByPk(id);
+        if (!client) {
+            return res.status(404).json({ error: 'Cliente no encontrado' });
+        }
+        await client.destroy();
+        return res.status(200).json({ message: 'Cliente eliminado', client });
+    } catch (error) {
+        return res.status(500).json({ error: 'Error desconocido' });
+    }
+}
+
+export { createClient, getClients, getClientById, updateClient, deleteClient };
