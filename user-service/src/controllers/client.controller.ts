@@ -45,4 +45,24 @@ const getClientById = async (req: Request, res: Response): Promise<Response> => 
     }
 }
 
-export { createClient, getClients, getClientById };
+const updateClient = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+    const { first_name, last_name, email, phone_number } = req.body;
+    try {
+        const client = await Client.findByPk(id);
+        if (!client) {
+            return res.status(404).json({ error: 'Cliente no encontrado' });
+        }
+        await client.update({
+            first_name,
+            last_name,
+            email,
+            phone_number
+        });
+        return res.status(200).json({ message: 'Cliente actualizado', client });
+    } catch (error) {
+        return res.status(500).json({ error: 'Error desconocido' });
+    }
+}
+
+export { createClient, getClients, getClientById, updateClient };
