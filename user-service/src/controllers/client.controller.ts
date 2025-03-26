@@ -22,4 +22,13 @@ const createClient = async (req: Request, res: Response): Promise<Response> => {
     }
 }
 
-export { createClient };
+const getClients = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const clients = await Client.findAll();
+        return res.status(200).json( { message: 'Lista de clientes', clients });
+    } 
+    catch (error) {
+        return res.status(500).json({ error: 'Error desconocido' });
+    }
+}
+export { createClient, getClients };
