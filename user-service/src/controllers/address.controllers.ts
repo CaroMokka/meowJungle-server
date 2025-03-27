@@ -71,6 +71,10 @@ const updateAddress = async (
   const { client_id, street_address, city, state, zip_code, country } =
     req.body;
   try {
+    const clientExists = await Client.findByPk(client_id); 
+    if (!clientExists) {
+      return res.status(404).json({ error: "El cliente no existe" });
+    } 
     const address = await Address.findByPk(id);
     if (!address) {
       return res.status(404).json({ error: "Dirección no encontrada" });
