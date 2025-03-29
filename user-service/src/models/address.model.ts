@@ -1,7 +1,9 @@
 import sequelize from "../config/client.db";
 import { DataTypes, Model } from "sequelize";
+import Client from "./client.model";
 
 class Address extends Model {
+  public id!: number;
   public client_id!: number;
   public street_address!: string;
   public city!: string;
@@ -12,10 +14,20 @@ class Address extends Model {
 
 Address.init(
   {
-    client_id: {
-      type: new DataTypes.INTEGER,
+    id: {
+      type:  DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+    },
+    client_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Client,
+        key: "id",
+      },
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
     },
     street_address: {
       type: new DataTypes.STRING(128),
