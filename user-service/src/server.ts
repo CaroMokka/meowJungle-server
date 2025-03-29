@@ -5,6 +5,7 @@ import clientRoutes from './routes/client.routes';
 import paymentMethodRoutes from './routes/paymentMethod.routes';
 
 
+
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 3001;
