@@ -2,7 +2,9 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { syncModels } from './models/sync';
 import clientRoutes from './routes/client.routes';
+import paymentMethodRoutes from './routes/paymentMethod.routes';
 import addressRoutes from './routes/address.routes';
+
 
 dotenv.config();
 const app = express();
@@ -10,7 +12,9 @@ const port = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use("/api",clientRoutes)
+app.use("/api", paymentMethodRoutes)
 app.use("/api", addressRoutes)
+
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
