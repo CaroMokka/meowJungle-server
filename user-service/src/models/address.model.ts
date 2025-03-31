@@ -28,6 +28,7 @@ Address.init(
       },
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
+      primaryKey: false,
     },
     street_address: {
       type: new DataTypes.STRING(128),

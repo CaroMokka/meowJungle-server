@@ -12,8 +12,9 @@ const port = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use("/api",clientRoutes)
-app.use("/api", paymentMethodRoutes)
-app.use("/api", addressRoutes)
+app.use("/api/clients", addressRoutes)
+app.use("/api/clients", paymentMethodRoutes)
+
 
 
 app.get('/', (req, res) => {
