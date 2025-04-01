@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   createClientController,
   getClientsController,
-  getClientById,
+  getClientByIdController,
   updateClient,
   deleteClient,
 } from "../controllers/client.controllers";
@@ -10,7 +10,7 @@ import {
 const router = Router();
 
 router.get("/clients", getClientsController);
-router.get("/clients/:id", getClientById);
+router.get("/clients/:clientId", getClientByIdController);
 router.post("/clients", createClientController);
 router.put("/clients/:id", updateClient);
 router.delete("/clients/:id", deleteClient);

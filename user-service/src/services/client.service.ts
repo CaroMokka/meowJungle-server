@@ -14,8 +14,8 @@ const createClient = async ({
 }: ClientType) => {
   try {
     if (!first_name || !last_name || !email || !phone_number) {
-        return { code: 400, error: "Faltan campos obligatorios" }
-      }
+      return { code: 400, error: "Faltan campos obligatorios" };
+    }
     const clientExists = await Client.findOne({
       where: {
         email,
@@ -30,7 +30,7 @@ const createClient = async ({
       email,
       phone_number,
     });
-    return { code: 201,  message: "Cliente creado", client };
+    return { code: 201, message: "Cliente creado", client };
   } catch (error) {
     if (error instanceof Error) {
       return { error: error.message };
@@ -38,10 +38,16 @@ const createClient = async ({
     return { error: "Error desconocido" };
   }
 };
-
 const getClients = async () => {
-    const clients = await Client.findAll();
-    return { code: 200, message: "Lista de clientes", clients }
-}
+  const clients = await Client.findAll();
+  return { code: 200, message: "Lista de clientes", clients };
+};
+const getClientById = async (clientId: string) => {
+  const client = await Client.findByPk(clientId);
+  if (!client) {
+    return { code: 400, message: "Cliente no existe" };
+  }
+  return { code: 200, message: "Cliente encontrado", client };
+};
 
-export { createClient, getClients };
+export { createClient, getClients, getClientById };

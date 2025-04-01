@@ -1,6 +1,6 @@
 import { Request, RequestHandler, Response } from "express";
 import Client from "../models/client.model";
-import { createClient, getClients } from "../services/client.service";
+import { createClient, getClients, getClientById } from "../services/client.service";
 
 const createClientController = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -25,18 +25,17 @@ const getClientsController = async (req: Request, res: Response): Promise<Respon
     return res.status(500).json({ error: "Error desconocido" });
   }
 };
-
-const getClientById = async (
+const getClientByIdController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const { id } = req.params;
   try {
-    const client = await Client.findByPk(id);
+    const { clientId } = req.params;
+    const client = await getClientById(clientId);
     if (!client) {
       return res.status(404).json({ error: "Cliente no encontrado" });
     }
-    return res.status(200).json({ message: "Cliente encontrado", client });
+    return res.status(200).json(client);
   } catch (error) {
     return res.status(500).json({ error: "Error desconocido" });
   }
@@ -76,4 +75,4 @@ const deleteClient = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-export { createClientController, getClientsController, getClientById, updateClient, deleteClient };
+export { createClientController, getClientsController, getClientByIdController, updateClient, deleteClient };
