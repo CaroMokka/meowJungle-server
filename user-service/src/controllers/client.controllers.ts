@@ -1,19 +1,15 @@
 import { Request, RequestHandler, Response } from "express";
 import Client from "../models/client.model";
+import { createClient } from "../services/client.service";
 
-const createClient = async (req: Request, res: Response): Promise<Response> => {
-  const { first_name, last_name, email, phone_number } = req.body;
+const createClientController = async (req: Request, res: Response): Promise<Response> => {
   try {
-    if (!first_name || !last_name || !email) {
-      return res.status(400).json({ error: "Faltan campos obligatorios" });
+    const { first_name, last_name, email, phone_number } = req.body;
+    const client = await createClient({first_name, last_name, email, phone_number});
+    if (!client) {
+      return res.status(400).json({ error: "Error al crear el cliente" });
     }
-    const client = await Client.create({
-      first_name,
-      last_name,
-      email,
-      phone_number,
-    });
-    return res.status(201).json({ message: "Cliente creado", client });
+    return res.status(201).json({ code: client.code, message: client.message, client: client.client });
   } catch (error) {
     if (error instanceof Error) {
       return res.status(500).json({ error: error.message });
@@ -21,7 +17,6 @@ const createClient = async (req: Request, res: Response): Promise<Response> => {
     return res.status(500).json({ error: "Error desconocido" });
   }
 };
-
 const getClients = async (req: Request, res: Response): Promise<Response> => {
   try {
     const clients = await Client.findAll();
@@ -81,4 +76,4 @@ const deleteClient = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-export { createClient, getClients, getClientById, updateClient, deleteClient };
+export { createClientController, getClients, getClientById, updateClient, deleteClient };
