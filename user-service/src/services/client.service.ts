@@ -50,4 +50,19 @@ const getClientById = async (clientId: string) => {
   return { code: 200, message: "Cliente encontrado", client };
 };
 
-export { createClient, getClients, getClientById };
+const updateClient = async (clientId:string, clientData:ClientType) => {
+    const { first_name, last_name, email, phone_number } = clientData
+    const client = await Client.findByPk(clientId);
+        if (!client) {
+          return { error: "Cliente no encontrado" }
+        }
+        await client.update({
+          first_name,
+          last_name,
+          email,
+          phone_number,
+        });
+        return { code: 200, message: "Cliente actualizado", client }
+}
+
+export { createClient, getClients, getClientById, updateClient };

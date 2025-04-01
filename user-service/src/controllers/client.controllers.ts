@@ -1,15 +1,34 @@
 import { Request, RequestHandler, Response } from "express";
 import Client from "../models/client.model";
-import { createClient, getClients, getClientById } from "../services/client.service";
+import {
+  createClient,
+  getClients,
+  getClientById,
+  updateClient
+} from "../services/client.service";
 
-const createClientController = async (req: Request, res: Response): Promise<Response> => {
+const createClientController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   try {
     const { first_name, last_name, email, phone_number } = req.body;
-    const client = await createClient({first_name, last_name, email, phone_number});
+    const client = await createClient({
+      first_name,
+      last_name,
+      email,
+      phone_number,
+    });
     if (!client) {
       return res.status(400).json({ error: "Error al crear el cliente" });
     }
-    return res.status(201).json({ code: client.code, message: client.message, client: client.client });
+    return res
+      .status(201)
+      .json({
+        code: client.code,
+        message: client.message,
+        client: client.client,
+      });
   } catch (error) {
     if (error instanceof Error) {
       return res.status(500).json({ error: error.message });
@@ -17,7 +36,10 @@ const createClientController = async (req: Request, res: Response): Promise<Resp
     return res.status(500).json({ error: "Error desconocido" });
   }
 };
-const getClientsController = async (req: Request, res: Response): Promise<Response> => {
+const getClientsController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   try {
     const clients = await getClients();
     return res.status(200).json({ clients });
@@ -41,22 +63,22 @@ const getClientByIdController = async (
   }
 };
 
-const updateClient = async (req: Request, res: Response): Promise<Response> => {
-  const { id } = req.params;
-  const { first_name, last_name, email, phone_number } = req.body;
+const updateClientController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { clientId } = req.params;
+  const clientData = req.body;
   try {
-    const client = await Client.findByPk(id);
-    if (!client) {
-      return res.status(404).json({ error: "Cliente no encontrado" });
+    const client = await updateClient(clientId,clientData)
+    if(!client){
+      return res.status(400).json({ message: "Cliente no encontrado" })
     }
-    await client.update({
-      first_name,
-      last_name,
-      email,
-      phone_number,
-    });
-    return res.status(200).json({ message: "Cliente actualizado", client });
+    return res.status(200).json(client);
   } catch (error) {
+    if (error instanceof Error) {
+      return res.status(500).json({ error: error.message });
+    }
     return res.status(500).json({ error: "Error desconocido" });
   }
 };
@@ -75,4 +97,10 @@ const deleteClient = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-export { createClientController, getClientsController, getClientByIdController, updateClient, deleteClient };
+export {
+  createClientController,
+  getClientsController,
+  getClientByIdController,
+  updateClientController,
+  deleteClient,
+};
