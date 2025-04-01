@@ -39,4 +39,9 @@ const createClient = async ({
   }
 };
 
-export { createClient };
+const getClients = async () => {
+    const clients = await Client.findAll();
+    return { code: 200, message: "Lista de clientes", clients }
+}
+
+export { createClient, getClients };

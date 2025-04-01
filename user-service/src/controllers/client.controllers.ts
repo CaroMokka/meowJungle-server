@@ -1,6 +1,6 @@
 import { Request, RequestHandler, Response } from "express";
 import Client from "../models/client.model";
-import { createClient } from "../services/client.service";
+import { createClient, getClients } from "../services/client.service";
 
 const createClientController = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -17,10 +17,10 @@ const createClientController = async (req: Request, res: Response): Promise<Resp
     return res.status(500).json({ error: "Error desconocido" });
   }
 };
-const getClients = async (req: Request, res: Response): Promise<Response> => {
+const getClientsController = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const clients = await Client.findAll();
-    return res.status(200).json({ message: "Lista de clientes", clients });
+    const clients = await getClients();
+    return res.status(200).json({ clients });
   } catch (error) {
     return res.status(500).json({ error: "Error desconocido" });
   }
@@ -76,4 +76,4 @@ const deleteClient = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-export { createClientController, getClients, getClientById, updateClient, deleteClient };
+export { createClientController, getClientsController, getClientById, updateClient, deleteClient };
