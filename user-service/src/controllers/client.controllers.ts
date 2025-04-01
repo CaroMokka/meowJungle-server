@@ -1,11 +1,10 @@
-import { Request, RequestHandler, Response } from "express";
-import Client from "../models/client.model";
+import { Request, Response } from "express";
 import {
   createClient,
   getClients,
   getClientById,
   updateClient,
-  deleteClient
+  deleteClient,
 } from "../services/client.service";
 
 const createClientController = async (
@@ -23,13 +22,11 @@ const createClientController = async (
     if (!client) {
       return res.status(400).json({ error: "Error al crear el cliente" });
     }
-    return res
-      .status(201)
-      .json({
-        code: client.code,
-        message: client.message,
-        client: client.client,
-      });
+    return res.status(201).json({
+      code: client.code,
+      message: client.message,
+      client: client.client,
+    });
   } catch (error) {
     if (error instanceof Error) {
       return res.status(500).json({ error: error.message });
@@ -71,9 +68,9 @@ const updateClientController = async (
   const { clientId } = req.params;
   const clientData = req.body;
   try {
-    const client = await updateClient(clientId,clientData)
-    if(!client){
-      return res.status(400).json({ message: "Cliente no encontrado" })
+    const client = await updateClient(clientId, clientData);
+    if (!client) {
+      return res.status(400).json({ message: "Cliente no encontrado" });
     }
     return res.status(200).json(client);
   } catch (error) {
@@ -84,14 +81,17 @@ const updateClientController = async (
   }
 };
 
-const deleteClientController = async (req: Request, res: Response): Promise<Response> => {
+const deleteClientController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const { clientId } = req.params;
   try {
-    const client = await deleteClient(clientId)
-    return res.status(200).json(client)
+    const client = await deleteClient(clientId);
+    return res.status(200).json(client);
   } catch (error) {
-    if(error instanceof Error){
-      return res.status(500).json({ message: error.message })
+    if (error instanceof Error) {
+      return res.status(500).json({ message: error.message });
     }
     return res.status(500).json({ error: "Error desconocido" });
   }

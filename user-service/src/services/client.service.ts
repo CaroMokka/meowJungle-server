@@ -50,28 +50,26 @@ const getClientById = async (clientId: string) => {
   return { code: 200, message: "Cliente encontrado", client };
 };
 
-const updateClient = async (clientId:string, clientData:ClientType) => {
-    const { first_name, last_name, email, phone_number } = clientData
-    const client = await Client.findByPk(clientId);
-        if (!client) {
-          return { error: "Cliente no encontrado" }
-        }
-        await client.update({
-          first_name,
-          last_name,
-          email,
-          phone_number,
-        });
-        return { code: 200, message: "Cliente actualizado", client }
-}
-
-const deleteClient = async (clientId:string) => {
-    const client = await Client.findByPk(clientId);
-    if (!client) {
-      return { error: "Cliente no encontrado" }
-    }
-    await client.destroy();
-    return { code: 200, message: "Cliente eliminado", client }
-}
-
+const updateClient = async (clientId: string, clientData: ClientType) => {
+  const { first_name, last_name, email, phone_number } = clientData;
+  const client = await Client.findByPk(clientId);
+  if (!client) {
+    return { error: "Cliente no encontrado" };
+  }
+  await client.update({
+    first_name,
+    last_name,
+    email,
+    phone_number,
+  });
+  return { code: 200, message: "Cliente actualizado", client };
+};
+const deleteClient = async (clientId: string) => {
+  const client = await Client.findByPk(clientId);
+  if (!client) {
+    return { error: "Cliente no encontrado" };
+  }
+  await client.destroy();
+  return { code: 200, message: "Cliente eliminado", client };
+};
 export { createClient, getClients, getClientById, updateClient, deleteClient };
