@@ -9,10 +9,10 @@ import {
 
 const router = Router();
 
-router.post("/payment-methods", createPaymentMethod);
-router.get("/payment-methods", getPaymentMethods);
-router.get("/payment-methods/:id", getPaymentMethodById);
-router.put("/payment-methods/:id", updatePaymentMethod);
-router.delete("/payment-methods/:id", deletePaymentMethod);
+router.post("/:clientId/payment-methods", createPaymentMethod);
+router.get("/:clientId/payment-methods", getPaymentMethods);
+router.get("/:clientId/payment-methods/:paymentId", getPaymentMethodById);
+router.put("/:clientId/payment-methods/:paymentId", updatePaymentMethod);
+router.delete("/:clientId/payment-methods/:paymentId", deletePaymentMethod);
 
 export default router;

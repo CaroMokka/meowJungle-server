@@ -25,10 +25,11 @@ PaymentMethod.init(
         key: "id"
       },
       onDelete: "CASCADE",
-      onUpdate: "CASCADE"
+      onUpdate: "CASCADE",
+      primaryKey: false,
     },
     card_number: {
-      type: new DataTypes.INTEGER(),
+      type: new DataTypes.STRING(20),
       allowNull: false,
     },
     card_type: {
@@ -36,7 +37,7 @@ PaymentMethod.init(
       allowNull: false
     },
     expiration_date: {
-      type: new DataTypes.STRING(128),
+      type: new DataTypes.DATEONLY,
       allowNull: false,
     }
   },
