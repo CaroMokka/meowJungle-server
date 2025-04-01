@@ -65,4 +65,13 @@ const updateClient = async (clientId:string, clientData:ClientType) => {
         return { code: 200, message: "Cliente actualizado", client }
 }
 
-export { createClient, getClients, getClientById, updateClient };
+const deleteClient = async (clientId:string) => {
+    const client = await Client.findByPk(clientId);
+    if (!client) {
+      return { error: "Cliente no encontrado" }
+    }
+    await client.destroy();
+    return { code: 200, message: "Cliente eliminado", client }
+}
+
+export { createClient, getClients, getClientById, updateClient, deleteClient };

@@ -4,7 +4,8 @@ import {
   createClient,
   getClients,
   getClientById,
-  updateClient
+  updateClient,
+  deleteClient
 } from "../services/client.service";
 
 const createClientController = async (
@@ -83,16 +84,15 @@ const updateClientController = async (
   }
 };
 
-const deleteClient = async (req: Request, res: Response): Promise<Response> => {
-  const { id } = req.params;
+const deleteClientController = async (req: Request, res: Response): Promise<Response> => {
+  const { clientId } = req.params;
   try {
-    const client = await Client.findByPk(id);
-    if (!client) {
-      return res.status(404).json({ error: "Cliente no encontrado" });
-    }
-    await client.destroy();
-    return res.status(200).json({ message: "Cliente eliminado", client });
+    const client = await deleteClient(clientId)
+    return res.status(200).json(client)
   } catch (error) {
+    if(error instanceof Error){
+      return res.status(500).json({ message: error.message })
+    }
     return res.status(500).json({ error: "Error desconocido" });
   }
 };
@@ -102,5 +102,5 @@ export {
   getClientsController,
   getClientByIdController,
   updateClientController,
-  deleteClient,
+  deleteClientController,
 };
